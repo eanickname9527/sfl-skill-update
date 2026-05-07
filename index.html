@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFL 技能升級效益計算器</title>
+    <meta name="description" content="專為 SFL 遊戲設計的技能升級效益計算器，幫助玩家根據敵方屬性與行動次數優化技能排序。">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+TC:wght@300;400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-animation"></div>
+    <main class="container">
+        <header>
+            <h1>SFL 技能效益計算器</h1>
+        </header>
+
+        <section class="config-panel">
+            <div class="input-group">
+                <label for="enemyAttr1">敵方屬性 1</label>
+                <select id="enemyAttr1">
+                    <!-- 將由 JS 動態生成 -->
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="enemyAttr2">敵方屬性 2</label>
+                <select id="enemyAttr2">
+                    <!-- 將由 JS 動態生成 -->
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="totalActions">總行動次數</label>
+                <input type="number" id="totalActions" value="50" min="1" max="999">
+            </div>
+        </section>
+
+        <section class="result-section">
+            <div class="result-header">
+                <h2>技能升級優先排序</h2>
+                <div class="info-badge">基於每級傷害成長</div>
+            </div>
+            <div id="skillList" class="skill-grid">
+                <!-- 將由 JS 動態生成 -->
+                <div class="loading">計算中...</div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-info">
+                <span>版本: v0.1</span>
+                <span class="divider">|</span>
+                <span>最後更新: <span id="lastUpdated">2026-05-07 16:27</span></span>
+            </div>
+        </footer>
+    </main>
+
+    <!-- 載入遊戲資料 -->
+    <script src="data/attribute.js"></script>
+    <script src="data/skill.js"></script>
+    <!-- 載入主邏輯 -->
+    <script src="script.js"></script>
+</body>
+
+</html>

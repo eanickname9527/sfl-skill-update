@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const enemyAttr1Select = document.getElementById('enemyAttr1');
     const enemyAttr2Select = document.getElementById('enemyAttr2');
     const totalActionsInput = document.getElementById('totalActions');
+    const tinisToggle = document.getElementById('tinisToggle');
     const skillListContainer = document.getElementById('skillList');
 
     // 1. 初始化屬性選單
@@ -57,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const eAttr1 = enemyAttr1Select.value;
         const eAttr2 = enemyAttr2Select.value;
         const totalActions = parseInt(totalActionsInput.value) || 0;
+        const isTinisActive = tinisToggle.checked;
 
         const results = [];
 
@@ -81,14 +83,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalMultiplier = multipliers.reduce((a, b) => a + b, 0) / multipliers.length;
             }
 
-            const numUses = countUses(data.ub, data.cd, totalActions);
+            // 提妮絲效果
+            let skillUB = data.ub;
+            let skillCD = data.cd;
+            if (isTinisActive) {
+                skillUB = Math.max(0, skillUB - 3);
+                skillCD = Math.max(0, skillCD - 1);
+            }
+
+            const numUses = countUses(skillUB, skillCD, totalActions);
             const efficiency = growthRate * numUses * totalMultiplier;
 
             results.push({
                 name,
                 attr: data.attr,
-                ub: data.ub,
-                cd: data.cd,
+                ub: skillUB,
+                cd: skillCD,
                 numUses,
                 multiplier: totalMultiplier,
                 efficiency: efficiency.toFixed(3),
@@ -136,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 事件監聽
     enemyAttr1Select.addEventListener('change', calculateEfficiency);
     enemyAttr2Select.addEventListener('change', calculateEfficiency);
+    tinisToggle.addEventListener('change', calculateEfficiency);
     totalActionsInput.addEventListener('input', () => {
         calculateEfficiency();
         

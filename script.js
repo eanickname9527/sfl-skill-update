@@ -136,7 +136,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // 事件監聽
     enemyAttr1Select.addEventListener('change', calculateEfficiency);
     enemyAttr2Select.addEventListener('change', calculateEfficiency);
-    totalActionsInput.addEventListener('input', calculateEfficiency);
+    totalActionsInput.addEventListener('input', () => {
+        calculateEfficiency();
+        
+        // 彩蛋邏輯
+        const easterEgg = document.getElementById('easterEgg');
+        const actions = parseInt(totalActionsInput.value) || 0;
+        if (actions > 50) {
+            easterEgg.style.display = 'block';
+        } else {
+            easterEgg.style.display = 'none';
+        }
+    });
 
     // 初始化
     initAttributeSelects();

@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const enemyAttr2Select = document.getElementById('enemyAttr2');
     const totalActionsInput = document.getElementById('totalActions');
     const tinisToggle = document.getElementById('tinisToggle');
+    const elementalControl = document.getElementById('elementalControl');
     const skillListContainer = document.getElementById('skillList');
 
     // 1. 初始化屬性選單
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         enemyAttr1Select.value = '火';
         enemyAttr2Select.value = '無';
     }
+
 
     // 2. 計算技能在指定行動次數內的可用次數
     function countUses(ub, cd, totalActions) {
@@ -59,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const eAttr2 = enemyAttr2Select.value;
         const totalActions = parseInt(totalActionsInput.value) || 0;
         const isTinisActive = tinisToggle.checked;
+        const elementBonus = parseFloat(elementalControl.value) || 0;
 
         const results = [];
 
@@ -76,11 +79,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (eAttr1 !== '無') multipliers.push(getAttributeMultiplier(data.attr, eAttr1));
             if (eAttr2 !== '無') multipliers.push(getAttributeMultiplier(data.attr, eAttr2));
 
-            let totalMultiplier;
+            // ① 計算原始屬性倍率 (多屬性取平均)
+            let rawMultiplier;
             if (multipliers.length === 0) {
-                totalMultiplier = 1.0; // 雙無屬性則為 1.0
+                rawMultiplier = 1.0;
             } else {
-                totalMultiplier = multipliers.reduce((a, b) => a + b, 0) / multipliers.length;
+                rawMultiplier = multipliers.reduce((a, b) => a + b, 0) / multipliers.length;
+            }
+
+            // ② & ③ 若原始倍率 > 1.0，加上元素掌控加成
+            let totalMultiplier = rawMultiplier;
+            if (rawMultiplier > 1.0) {
+                totalMultiplier += elementBonus;
             }
 
             // 提妮絲效果
@@ -147,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     enemyAttr1Select.addEventListener('change', calculateEfficiency);
     enemyAttr2Select.addEventListener('change', calculateEfficiency);
     tinisToggle.addEventListener('change', calculateEfficiency);
+    elementalControl.addEventListener('change', calculateEfficiency);
     totalActionsInput.addEventListener('input', () => {
         calculateEfficiency();
         

@@ -338,6 +338,16 @@ input:focus + .slider {
 }
 
 /* Responsive */
+.bonus-text {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 1rem;
+    color: var(--primary);
+    margin-top: 0.5rem;
+    font-weight: 600;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
 @media (max-width: 600px) {
     h1 {
         font-size: 2rem;
